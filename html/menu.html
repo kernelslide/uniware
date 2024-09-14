@@ -38,6 +38,15 @@
 
 </head>
 
+<audio id="audio" loop autoplay src="https://kernelslide.github.io/uniware/yeat.mp4"></audio>
+<script>
+// Play the audio on window load
+window.onload = function() {
+	const audio = document.getElementById('audio');
+	audio.play();
+};
+</script>
+
 <body ng-app="MenuApp" ng-controller="MenuController">
 
 <div id="version" ng-click="ShowNews()" ng-show="Branch"><span ng-show="Branch != 'unknown'">You are on the {{Branch}} branch. Click here to find out more. ( </span>{{Version}}<span ng-show="Branch != 'unknown'"> )</span></div>
