@@ -1,9 +1,11 @@
 <html>
+
 <head>
 
 	<title>Garry's Mod Main Menu</title>
 
-	<link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+		rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/menu/Menu.css" />
 	<link rel="stylesheet" type="text/css" href="css/menu/NavBar.css" />
 	<link rel="stylesheet" type="text/css" href="css/menu/PageOptions.css" />
@@ -40,123 +42,166 @@
 
 <audio id="audio" loop autoplay src="https://kernelslide.github.io/uniware/yeat.mp3"></audio>
 <script>
-// Play the audio on window load
-window.onload = function() {
-	const audio = document.getElementById('audio');
-	audio.play();
-};
+	// Play the audio on window load
+	window.onload = function () {
+		const audio = document.getElementById('audio');
+		audio.play();
+	};
+
+	// Audio control functions
+	function playAudio() {
+		document.getElementById('audio').play();
+	}
+
+	function pauseAudio() {
+		document.getElementById('audio').pause();
+	}
+
+	function setVolume(value) {
+		document.getElementById('audio').volume = value;
+	}
 </script>
 
 <body ng-app="MenuApp" ng-controller="MenuController">
 
-<div id="version" ng-click="ShowNews()" ng-show="Branch"><span ng-show="Branch != 'unknown'">You are on the {{Branch}} branch. Click here to find out more. ( </span>{{Version}}<span ng-show="Branch != 'unknown'"> )</span></div>
+	<div id="version" ng-click="ShowNews()" ng-show="Branch"><span ng-show="Branch != 'unknown'">You are on the
+			{{Branch}} branch. Click here to find out more. ( </span>{{Version}}<span ng-show="Branch != 'unknown'">
+			)</span></div>
 
-<div ng-view>
-
-</div>
-
-<div id="NavBar">
-
-	<div class="left" ng-show="ShowBack">
-
-		<a href="#/" class="button ui_sound_return"><img src='img/back_to_main_menu.png'><span ng-Tranny="'back_to_main_menu'" ></span></a>
+	<div ng-view>
 
 	</div>
 
-	<ul class="right">
-		<li class="bigicon" ng-click="ToggleGamemodes()"><img ng-src='../gamemodes/{{Gamemode}}/icon24.png'><span>{{GamemodeTitle}}</span></li>
-		<li class="smallicon" ng-click="ToggleLanguage()"><img style="margin-top: 9px;" ng-src='../resource/localization/{{Language}}.png'><span></span></li>
-		<li class="smallicon hidelabel" ng-click="ToggleGames()"><img ng-src='img/games.png'><span ng-Tranny="'games'"></span></li>
-		<li class="smallicon" ng-click="TogglePopup('.kinect_settings')" ng-show="kinect.available"><img ng-src='img/kinect.png'><span></span></li>
-		<li class="smallicon hidelabel" style="overflow: visible;" ng-click="ToggleProblems()"><img ng-src='img/error.png'>
-			<span ng-Tranny="'problems'"></span>
-			<number ng-show="ProblemCount > 0" class="{{IfElse( ProblemSeverity > 0, 'severity' + ProblemSeverity, '' )}}">{{ProblemCount}}</number>
-		</li>
-	</ul>
+	<div id="NavBar">
 
-	<ul class="center" ng-show="InGame">
+		<div class="left" ng-show="ShowBack">
 
-		<span ng-show="ShowFavButton">
-			<li class="bigicon hidelabel" ng-hide="IsCurrentServerFav" ng-click="ToggleServerFavorites( true )"><a href="#/"><img src='img/favourite_server.png'><span ng-Tranny="'favorite_this_server'"></span></a></li>
-			<li class="bigicon hidelabel" ng-show="IsCurrentServerFav" ng-click="ToggleServerFavorites( false )"><a href="#/"><img src='img/favourite_server_del.png'><span ng-Tranny="'unfavorite_this_server'"></span></a></li>
-		</span>
-		<li class="bigicon" ng-click="BackToGame()"><a href="#/"><img src='img/back_to_game.png'><span ng-Tranny="'back_to_game'"></span></a></li>
-		<!--
-		<li ng-click="Disconnect()"><a href="#/"><img src='img/disconnect.png'><span ng-Tranny="'disconnect'"></span></a></li>
-		-->
-
-	</ul>
-
-</div>
-
-<ul class="gamemode_list popup">
-	<li ng-repeat="gm in Gamemodes|filter:{menusystem:true}|orderBy:'name'" ng-click="SelectGamemode( gm )">
-		<img ng-src='../gamemodes/{{gm.name}}/icon24.png'><span>{{gm.title}}</span>
-	</li>
-
-</ul>
-
-<ul class="language_list popup">
-	<li  ng-repeat="lang in Languages" ng-click="SelectLanguage( lang )">
-		<img ng-src='../resource/localization/{{lang}}.png'>
-	</li>
-</ul>
-
-<ul class="games_list popup">
-
-	<li class="notowned"><img src='img/notowned.png' width="16" height="16"> <span ng-Tranny="'game_not_owned'"></span></li>
-	<li class="notinstalled"><img src='img/notinstalled.png' width="16" height="16"> <span ng-Tranny="'game_not_installed'"></span></li>
-	<hr/>
-	<li ng-repeat="game in Games|orderBy:'title'" class="{{IfElse( !game.owned, 'notowned', '' )}} {{IfElse( !game.installed, 'notinstalled', '' )}}">
-		<input type=checkbox ng-model="game.mounted" ng-show="game.installed" ng-change="GameMountChanged( game )"/>
-		<img src='img/notowned.png' ng-show="!game.owned" width="16" height="16">
-		<img src='img/notinstalled.png' ng-show="game.owned && !game.installed" width="16" height="16">
-
-		<span>{{game.title}}</span>
-	</li>
-
-</ul>
-
-<ul class="kinect_settings popup">
-
-	<li>
-		<div>
-
-			<p>
-				<label style="display: block">
-					<input type="checkbox" ng-model="kinect.show_color" ng-change="kinect.update()">  <span ng-Tranny="'motionsensor.showcolor'"></span>
-				</label>
-			</p>
-
-
-			<div ng-show="kinect.show_color">
-
-				<span ng-Tranny="'motionsensor.colorpos'"></span>
-
-				<p style="margin-left: 5px;">
-					<label ng-repeat="option in kinect.color_options" style="display: block">
-						<input type="radio" name="kinect.color" ng-model="kinect.color" value="{{option}}" ng-change="kinect.update()">
-						<span ng-Tranny="'motionsensor.showcolor.'+ option"></span>
-					</label>
-				</p>
-			</div>
-
-			<div  ng-show="kinect.show_color">
-				<span ng-Tranny="'motionsensor.colorsize'"></span>
-
-				<p style="margin-left: 5px;">
-					<label ng-repeat="option in kinect.size_options" style="display: block">
-						<input type="radio" name="kinect.color_size" ng-model="kinect.color_size" value="{{option}}" ng-change="kinect.update()">
-						<span ng-Tranny="'motionsensor.colorsize.'+ option"></span>
-					</label>
-				</p>
-			</div>
+			<a href="#/" class="button ui_sound_return"><img src='img/back_to_main_menu.png'><span
+					ng-Tranny="'back_to_main_menu'"></span></a>
 
 		</div>
 
-	</li>
+		<ul class="right">
+			<li class="bigicon" ng-click="ToggleGamemodes()"><img
+					ng-src='../gamemodes/{{Gamemode}}/icon24.png'><span>{{GamemodeTitle}}</span></li>
+			<li class="smallicon" ng-click="ToggleLanguage()"><img style="margin-top: 9px;"
+					ng-src='../resource/localization/{{Language}}.png'><span></span></li>
+			<li class="smallicon hidelabel" ng-click="ToggleGames()"><img ng-src='img/games.png'><span
+					ng-Tranny="'games'"></span></li>
+			<li class="smallicon" ng-click="TogglePopup('.kinect_settings')" ng-show="kinect.available"><img
+					ng-src='img/kinect.png'><span></span></li>
+			<li class="smallicon hidelabel" style="overflow: visible;" ng-click="ToggleProblems()"><img
+					ng-src='img/error.png'>
+				<span ng-Tranny="'problems'"></span>
+				<number ng-show="ProblemCount > 0"
+					class="{{IfElse( ProblemSeverity > 0, 'severity' + ProblemSeverity, '' )}}">{{ProblemCount}}
+				</number>
+			</li>
+		</ul>
 
-</ul>
+		<ul class="center" ng-show="InGame">
+
+			<span ng-show="ShowFavButton">
+				<li class="bigicon hidelabel" ng-hide="IsCurrentServerFav" ng-click="ToggleServerFavorites( true )"><a
+						href="#/"><img src='img/favourite_server.png'><span
+							ng-Tranny="'favorite_this_server'"></span></a></li>
+				<li class="bigicon hidelabel" ng-show="IsCurrentServerFav" ng-click="ToggleServerFavorites( false )"><a
+						href="#/"><img src='img/favourite_server_del.png'><span
+							ng-Tranny="'unfavorite_this_server'"></span></a></li>
+			</span>
+			<li class="bigicon" ng-click="BackToGame()"><a href="#/"><img src='img/back_to_game.png'><span
+						ng-Tranny="'back_to_game'"></span></a></li>
+			<!--
+		<li ng-click="Disconnect()"><a href="#/"><img src='img/disconnect.png'><span ng-Tranny="'disconnect'"></span></a></li>
+		-->
+
+		</ul>
+
+	</div>
+
+	<ul class="gamemode_list popup">
+		<li ng-repeat="gm in Gamemodes|filter:{menusystem:true}|orderBy:'name'" ng-click="SelectGamemode( gm )">
+			<img ng-src='../gamemodes/{{gm.name}}/icon24.png'><span>{{gm.title}}</span>
+		</li>
+
+	</ul>
+
+	<ul class="language_list popup">
+		<li ng-repeat="lang in Languages" ng-click="SelectLanguage( lang )">
+			<img ng-src='../resource/localization/{{lang}}.png'>
+		</li>
+	</ul>
+
+	<ul class="games_list popup">
+
+		<li class="notowned"><img src='img/notowned.png' width="16" height="16"> <span
+				ng-Tranny="'game_not_owned'"></span></li>
+		<li class="notinstalled"><img src='img/notinstalled.png' width="16" height="16"> <span
+				ng-Tranny="'game_not_installed'"></span></li>
+		<hr />
+		<li ng-repeat="game in Games|orderBy:'title'"
+			class="{{IfElse( !game.owned, 'notowned', '' )}} {{IfElse( !game.installed, 'notinstalled', '' )}}">
+			<input type=checkbox ng-model="game.mounted" ng-show="game.installed"
+				ng-change="GameMountChanged( game )" />
+			<img src='img/notowned.png' ng-show="!game.owned" width="16" height="16">
+			<img src='img/notinstalled.png' ng-show="game.owned && !game.installed" width="16" height="16">
+
+			<span>{{game.title}}</span>
+		</li>
+
+	</ul>
+
+	<ul class="kinect_settings popup">
+
+		<li>
+			<div>
+
+				<p>
+					<label style="display: block">
+						<input type="checkbox" ng-model="kinect.show_color" ng-change="kinect.update()"> <span
+							ng-Tranny="'motionsensor.showcolor'"></span>
+					</label>
+				</p>
+
+
+				<div ng-show="kinect.show_color">
+
+					<span ng-Tranny="'motionsensor.colorpos'"></span>
+
+					<p style="margin-left: 5px;">
+						<label ng-repeat="option in kinect.color_options" style="display: block">
+							<input type="radio" name="kinect.color" ng-model="kinect.color" value="{{option}}"
+								ng-change="kinect.update()">
+							<span ng-Tranny="'motionsensor.showcolor.'+ option"></span>
+						</label>
+					</p>
+				</div>
+
+				<div ng-show="kinect.show_color">
+					<span ng-Tranny="'motionsensor.colorsize'"></span>
+
+					<p style="margin-left: 5px;">
+						<label ng-repeat="option in kinect.size_options" style="display: block">
+							<input type="radio" name="kinect.color_size" ng-model="kinect.color_size" value="{{option}}"
+								ng-change="kinect.update()">
+							<span ng-Tranny="'motionsensor.colorsize.'+ option"></span>
+						</label>
+					</p>
+				</div>
+
+			</div>
+
+		</li>
+
+	</ul>
+
+	<div id="audioControls" style="position: fixed; bottom: 10px; width: 100%; text-align: center; background: #333; padding: 10px; color: white; font-family: 'Anonymous Pro', monospace;">
+        <button onclick="playAudio()" style="margin-right: 10px; padding: 5px 10px;">Play</button>
+        <button onclick="pauseAudio()" style="margin-right: 10px; padding: 5px 10px;">Pause</button>
+        <label for="volumeControl" style="margin-right: 10px;">Volume:</label>
+        <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="1" onchange="setVolume(this.value)" style="vertical-align: middle;">
+    </div>
 
 </body>
+
 </html>
