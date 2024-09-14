@@ -31,11 +31,12 @@
 .gamemode .name
 {
 	font-weight: bold;
-	position: absolute;
-	left: 40px;
-	top: 5px;
-	font-size: 20px;
-	white-space: nowrap;
+    position: absolute;
+    left: 40px;
+    top: -5px;
+    font-size: 17px;
+    white-space: nowrap;
+    color: black;
 }
 
 .gamemode .name tag

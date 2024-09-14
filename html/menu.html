@@ -45,20 +45,6 @@
 
 </head>
 
-<audio id="audio" loop src="https://kernelslide.github.io/uniware/yeat.mp3"></audio>
-<script>
-	function playAudio() {
-		document.getElementById('audio').play();
-	}
-	function pauseAudio() {
-		document.getElementById('audio').pause();
-	}
-	function setVolume(value) {
-		document.getElementById('audio').volume = value;
-	}
-	// Live volume update loop here
-</script>
-
 <body ng-app="MenuApp" ng-controller="MenuController" data-bs-theme="dark">
 
 	<div id="version" ng-click="ShowNews()" ng-show="Branch"><span ng-show="Branch != 'unknown'">You are on the
@@ -94,10 +80,16 @@
 					class="{{IfElse( ProblemSeverity > 0, 'severity' + ProblemSeverity, '' )}}">{{ProblemCount}}
 				</number>
 			</li>
+			<li class="smallicon" onclick="lua.OpenUniWareMenu();">
+				<span>
+					<b>
+						UniWare Settings
+					</b>
+				</span>
+			</li>
 		</ul>
 
 		<ul class="center" ng-show="InGame">
-
 			<span ng-show="ShowFavButton">
 				<li class="bigicon hidelabel" ng-hide="IsCurrentServerFav" ng-click="ToggleServerFavorites( true )"><a
 						href="#/"><img src='img/favourite_server.png'><span
@@ -108,10 +100,6 @@
 			</span>
 			<li class="bigicon" ng-click="BackToGame()"><a href="#/"><img src='img/back_to_game.png'><span
 						ng-Tranny="'back_to_game'"></span></a></li>
-			<!--
-		<li ng-click="Disconnect()"><a href="#/"><img src='img/disconnect.png'><span ng-Tranny="'disconnect'"></span></a></li>
-		-->
-
 		</ul>
 
 	</div>
@@ -191,24 +179,6 @@
 		</li>
 
 	</ul>
-
-	<div id="audioControls" class="container-fluid fixed-bottom text-white py-3" style="position: fixed;
-    bottom: -1%;
-    width: 35%;
-    text-align: center;
-    background: #33333300;
-    padding: 10px;
-    color: white;
-    font-family: 'Anonymous Pro', monospace;
-    left: 0%;
-    z-index: 0;">
-		<div class="d-flex justify-content-center align-items-center">
-			<button onclick="playAudio()" class="btn btn-outline-light me-2" style="margin-right: 10px; padding: 5px 10px;">Play</button>
-			<button onclick="pauseAudio()" class="btn btn-outline-light me-4" style="margin-right: 10px; padding: 5px 10px;">Pause</button>
-            <label for="volumeControl" class="form-label me-2">Volume:</label>
-            <input type="range" id="volumeControl" class="form-range w-25" min="0" max="1" step="0.00001" value="1" oninput="setVolume(this.value)">
-		</div>
-	</div>
 
 </body>
 
