@@ -50,5 +50,10 @@ var lua =
 	PlaySound: function( name )
 	{
 		lua.Run( "surface.PlaySound( %s )", String( name ) )
-	}
+	},
+
+	OpenUniWareMenu: function()
+	{
+		lua.Run( "OpenUniWareMenu()" );
+	},
 }
